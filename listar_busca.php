@@ -28,9 +28,25 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
  <?php
  if (!empty($_POST['cod_ver'])) {
  	$cod_ver = $_POST['cod_ver'];
- 	$sql = $pdo->prepare("SELECT c.id, c.Nome, c.CPF, c.Cod_Ver_Nota, c.Valor_Nota, c.Insercao,p.numsorte,p.cupom FROM concorrentes as c INNER JOIN premiacao as p WHERE c.Cod_Ver_Nota = :cod_ver AND c.id = p.id_concorrente OR c.CPF = :cod_ver AND c.id = p.id_concorrente ORDER BY c.id");
+ 	$str = strlen($_POST['cod_ver']);
+ 	$sql = $pdo->prepare("SELECT c.id, c.Nome, c.CPF, c.Cod_Ver_Nota, c.Valor_Nota, c.Insercao, p.cupom FROM concorrentes as c INNER JOIN premiacao as p WHERE c.Cod_Ver_Nota = :cod_ver AND c.id = p.id_concorrente OR c.CPF = :cod_ver AND c.id = p.id_concorrente ORDER BY c.id");
  	$sql->bindValue(":cod_ver", $cod_ver);
  	$sql->execute();
+ 	if ($str == 11 ) {
+ 	$soma = $pdo->prepare("SELECT SUM(Valor_Nota) AS resultado FROM concorrentes WHERE CPF = :cod_ver");
+ 	$soma->bindValue(":cod_ver", $cod_ver);
+ 	$soma->execute();
+ 	}else{
+ 	$soma = $pdo->prepare("SELECT SUM(Valor_Nota) AS resultado FROM concorrentes WHERE Cod_Ver_Nota = :cod_ver");
+ 	$soma->bindValue(":cod_ver", $cod_ver);
+ 	$soma->execute();
+    }
+ 	if ($soma->rowCount() > 0){
+ 		$soma = $soma->fetchAll();
+ 	foreach ($soma as $resultado) {
+ 		echo "Valor Total é:&ensp;R$&ensp;<label class='btn btn-default'>".$resultado['resultado']."</label>";
+ 	}
+ 	}
  	if ($sql->rowCount() > 0) {
  		$sql = $sql->fetchAll();
  		?>
@@ -42,7 +58,6 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 			        <th><li class="fa fa-list"></li>&ensp;CPF</th>
 			        <th><li class="fa fa-key"></li>&ensp;Cod. Verificador</th>
 			        <th><li class="fa fa-money"></li>&ensp;Valor Nota</th>
-			        <th><li class="fa fa-list"></li>&ensp;Nº da Sorte</th>
 			        <th><li class="fa fa-list"></li>&ensp;Cupom</th>
 			        <th><li class="fa fa-list"></li>&ensp;Data Cadastro</th>
  				</tr>
@@ -57,7 +72,6 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 			        <td><?php echo $notas['CPF'];?></td>
 			        <td><?php echo $notas['Cod_Ver_Nota'];?></td>
 			        <td><?php echo $notas['Valor_Nota'];?></td>
-			        <td><?php echo $notas['numsorte'];?></td>
 			        <td><?php echo $notas['cupom'];?></td>
 			        <td><?php echo date("d/m/Y H:i:s", strtotime($notas['Insercao']));?></td>				
 			        <?php 
@@ -98,7 +112,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
  }
  $p = ($pg-1) * $qntpg;
 
- $sql = $pdo->prepare("SELECT c.id, c.Nome, c.CPF, c.Cod_Ver_Nota, c.Valor_Nota, c.Insercao,p.numsorte,p.cupom FROM concorrentes as c INNER JOIN premiacao as p WHERE c.id = p.id_concorrente ORDER BY c.id LIMIT $p, $qntpg");
+ $sql = $pdo->prepare("SELECT c.id, c.Nome, c.CPF, c.Cod_Ver_Nota, c.Valor_Nota, c.Insercao, p.cupom FROM concorrentes as c INNER JOIN premiacao as p WHERE c.id = p.id_concorrente ORDER BY c.id LIMIT $p, $qntpg");
  $sql -> execute();
  $count = 0;
     if ($sql -> rowCount() > 0 ) {
@@ -112,7 +126,6 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 			<th><li class="fa fa-list"></li>&ensp;CPF</th>
 			<th><li class="fa fa-key"></li>&ensp;Cod. Verificador</th>
 			<th><li class="fa fa-money"></li>&ensp;Valor Nota</th>
-			<th><li class="fa fa-list"></li>&ensp;Nº da Sorte</th>
 			<th><li class="fa fa-list"></li>&ensp;Cupom</th>
 			<th><li class="fa fa-list"></li>&ensp;Data Cadastro</th>
 		</tr>
@@ -126,7 +139,6 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 			<td><?php echo $notas['CPF'];?></td>
 			<td><?php echo $notas['Cod_Ver_Nota'];?></td>
 			<td><?php echo $notas['Valor_Nota'];?></td>
-			<td><?php echo $notas['numsorte'];?></td>
 			<td><?php echo $notas['cupom'];?></td>
 			<td><?php echo date("d/m/Y H:i:s", strtotime($notas['Insercao']));?></td>
 			<?php 
@@ -138,7 +150,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 			<?php 
 			}
 			?>
-			<td><abbr title="Listar e Editar Nº Sorte e Cupom"><a class="btn btn-success fa fa-list" href="listar_cupom.php?cod=<?=$notas['Cod_Ver_Nota']?>"></a></abbr></button></td>
+			<td><abbr title="Listar e Editar Cupom"><a class="btn btn-success fa fa-list" href="listar_cupom.php?cod=<?=$notas['Cod_Ver_Nota']?>"></a></abbr></button></td>
 		</tr>
 	</tbody>
 

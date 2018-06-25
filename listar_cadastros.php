@@ -26,7 +26,7 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
  }
  $p = ($pg-1) * $qntpg;
 
- $sql = $pdo->prepare("SELECT c.id, c.Nome, c.CPF, c.Cod_Ver_Nota, c.Valor_Nota, c.Insercao,p.numsorte,p.cupom FROM concorrentes as c INNER JOIN premiacao as p WHERE c.id = p.id_concorrente ORDER BY c.Nome LIMIT $p, $qntpg");
+ $sql = $pdo->prepare("SELECT c.id, c.Nome, c.CPF, c.Cod_Ver_Nota, c.Valor_Nota, c.Insercao, p.cupom FROM concorrentes as c INNER JOIN premiacao as p WHERE c.id = p.id_concorrente ORDER BY c.Nome LIMIT $p, $qntpg");
  $sql -> execute();
  $count = 0;
     if ($sql -> rowCount() > 0 ) {
@@ -40,7 +40,6 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 			<th>CPF</th>
 			<th>Cod. Verificação</th>
 			<th>Valor Nota</th>
-			<th>Nº da Sorte</th>
 			<th>Cupom</th>
 			<th>Data de Cadastro</th>
 		</tr>
@@ -54,7 +53,6 @@ if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
 			<td><?php echo $notas['CPF'];?></td>
 			<td><?php echo $notas['Cod_Ver_Nota'];?></td>
 			<td><?php echo $notas['Valor_Nota'];?></td>
-			<td><?php echo $notas['numsorte'];?></td>
 			<td><?php echo $notas['cupom'];?></td>
 			<td><?php echo date("d/m/Y H:i:s", strtotime($notas['Insercao']));?></td>				
 			<td><a class="btn btn-primary" href="listar_nota_cadastrada.php?id=<?=$notas['id']?>">Editar</a></button></td>

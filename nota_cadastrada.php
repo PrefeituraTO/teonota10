@@ -43,7 +43,6 @@ require "cabecalho.php";
 			 for ($count=0; $count < $contador; $count++) { 
 			 	if (isset($_SESSION['NOTA']['cupom'.$count])) {
 			 		echo "<tr>";
-			 		echo "<td><label class='form-control'>".$_SESSION['NOTA']['numsorte'.$count]."</label></td>";
 			 		echo "<td><label class='form-control'>".$_SESSION['NOTA']['cupom'.$count]."</label></td>";
 			 		echo "</tr>";
 			 }

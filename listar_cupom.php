@@ -34,7 +34,6 @@ require "cabecalho.php";
 		<tr>
 			<th>ID</th>
 			<th>Cod. Ver. Nota</th>
-			<th>Nº Sorte</th>
 			<th>Cupom</th>
 			<th>Inserção</th>
 			<th>Atualização</th>
@@ -48,14 +47,13 @@ require "cabecalho.php";
 		<tr>
 			<td><?php echo $notas['id'];?></td>
 			<td><?php echo $notas['Cod_Ver_Nota']?></td>
-			<td><?php echo $notas['numsorte'];?></td>
 			<td><?php echo $notas['cupom'];?></td>
 			<td><?php echo date("d/m/Y H:i:s", strtotime($notas['Insercao']));?></td>
 			<td><?php echo date("d/m/Y H:i:s", strtotime($notas['atualizacao']));?></td>
 			<?php 
               if ($_SESSION['perfil'] == 'admin') {
 			?>				
-			<td><a class="btn btn-primary" href="form_numsorte_cupom.php?id=<?=$notas['id']?>">Editar Nº Sorte - Cupom</a></td>
+			<td><a class="btn btn-primary" href="form_numsorte_cupom.php?id=<?=$notas['id']?>">Editar Cupom</a></td>
 			<td><abbr title="Excluir dados"><a class="btn btn-danger fa fa-trash" href="excluir_cupom.php?id=<?=$notas['id']?>"></a></abbr></td>
 			<?php
               }

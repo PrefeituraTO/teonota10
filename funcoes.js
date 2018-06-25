@@ -1,18 +1,15 @@
 function adicionarLinha(){
-	var local=document.getElementById('TabPremiacao');
-	var tblBody = local.tBodies[0];
-	var newRow = tblBody.insertRow(-1);  
-	var total  = document.getElementById('premiacaototal').value;
-	var newCell0 = newRow.insertCell(0);
-	newCell0.innerHTML = '<td><input type="text" name="numsorte'+total+'"  value="" class="form-control" placeholder="Nº Sorte"></td>'; 
-	var newCell1 = newRow.insertCell(1);
-	newCell1.innerHTML = '<td><input type="text" name="cupom'+total+'"  value="" class="form-control" placeholder="Cupom"></td>';
-	var newCell2 = newRow.insertCell(2);
-	newCell2.innerHTML = '<td><button class="btn btn-large btn-danger" onclick="deleteRow(this.parentNode.parentNode.rowIndex)">Excluir</button></td>';
-	var total=document.getElementById('premiacaototal').value++;
+    var local=document.getElementById('TabPremiacao');
+    var tblBody = local.tBodies[0];
+    var newRow = tblBody.insertRow(-1);  
+    var total  = document.getElementById('premiacaototal').value;
+    var newCell1 = newRow.insertCell(0);
+    newCell1.innerHTML = '<td><input type="text" name="cupom'+total+'"  value="" class="form-control" placeholder="Cupom"></td>';
+    var newCell2 = newRow.insertCell(1);
+    newCell2.innerHTML = '<td><button class="btn btn-large btn-danger" onclick="deleteRow(this.parentNode.parentNode.rowIndex)">Excluir</button></td>';
+    var total=document.getElementById('premiacaototal').value++;
 
 }
-
 function deleteRow(i){
 	document.getElementById('TabPremiacao').deleteRow(i);
 }
@@ -108,12 +105,8 @@ function maiuscula(z){
 function moeda(z){
 v = z.value;
 v=v.replace(/\D/g,"") // permite digitar apenas numero
-v=v.replace(/(\d{1})(\d{14})$/,"$1.$2") // coloca ponto antes dos ultimos digitos
-v=v.replace(/(\d{1})(\d{11})$/,"$1.$2") // coloca ponto antes dos ultimos 11 digitos
-v=v.replace(/(\d{1})(\d{8})$/,"$1.$2") // coloca ponto antes dos ultimos 8 digitos
-v=v.replace(/(\d{1})(\d{5})$/,"$1.$2") // coloca ponto antes dos ultimos 5 digitos
-v=v.replace(/(\d{1})(\d{1,2})$/,"$1,$2") // coloca virgula antes dos ultimos 2 digitos
-z.value = "R$".concat(" ").concat(v);
+v=v.replace(/(\d{1})(\d{1,2})$/,"$1.$2") // coloca virgula antes dos ultimos 2 digitos
+z.value = v;
 }
 
 function codVer(c){
